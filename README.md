@@ -25,6 +25,18 @@ Testing JSON module:
 Testing Python features:
 Squares: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
 
+Testing raw socket with HTTP request:
+✓ Socket created
+✓ Connected to example.com:80
+✓ Sending 56 byte request...
+  Sent 32 bytes
+  Sent 24 bytes
+✓ Request sent successfully
+✓ Receiving response...
+✓ HTTP Response: HTTP/1.1 200 OK
+✓ Received 823 bytes
+ <!doctype html><html lang="en"><head><title>Example Domain</title><meta name="viewport" con...
+
 ============================================================
 All tests passed! ✅
 ============================================================
