@@ -4,6 +4,32 @@ A runtime for executing CPython compiled to WebAssembly/WASI with an in-memory v
 
 Built as a lark, I'm not realy sure it would be useful for but I spend a few days on it so it might as well be public.
 
+```
+============================================================
+zig-wasm-cpython Test Script
+============================================================
+Python version: 3.13.1 (tags/v3.13.1-dirty:0671451, Jan  1 2026, 00:53:23) [Clang 18.1.2-wasi-sdk (https://github.com/llvm/llvm-project 26a1d6601d727a96f43
+Platform: wasi
+
+Testing JSON module:
+{
+  "message": "Hello from Python in WASM!",
+  "features": [
+    "VFS",
+    "Sockets",
+    "Standard Library"
+  ],
+  "status": "working"
+}
+
+Testing Python features:
+Squares: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+============================================================
+All tests passed! ✅
+============================================================
+```
+
 ## Features
 
 - **In-Memory VFS**: Run Python scripts from memory without touching the filesystem
@@ -184,4 +210,5 @@ This project builds upon:
 - WASI SDK (Apache License 2.0)
 
 See individual components for their respective licenses.
+
 
