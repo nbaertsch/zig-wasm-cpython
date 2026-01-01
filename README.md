@@ -2,7 +2,7 @@
 
 A runtime for executing CPython compiled to WebAssembly/WASI with an in-memory virtual filesystem and socket support.
 
-Built as a lark, I'm not realy sure it would be useful for but I spend a few days on it so it might as well be public.
+Built as a lark, I'm not realy sure what it would be useful for but I spent a few days on it so it might as well be public.
 
 ```
 ============================================================
@@ -222,5 +222,6 @@ This project builds upon:
 - WASI SDK (Apache License 2.0)
 
 See individual components for their respective licenses.
+
 
 
