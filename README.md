@@ -2,6 +2,8 @@
 
 A runtime for executing CPython compiled to WebAssembly/WASI with an in-memory virtual filesystem and socket support.
 
+Built as a lark, I'm not realy sure it would be useful for but I spend a few days on it so it might as well be public.
+
 ## Features
 
 - **In-Memory VFS**: Run Python scripts from memory without touching the filesystem
@@ -21,25 +23,19 @@ A runtime for executing CPython compiled to WebAssembly/WASI with an in-memory v
 ### Building
 
 ```bash
-zig build
+zig build -Doptimize=ReleaseFast
 ```
 
 ### Running
 
-Run the default test script:
+Run the default requests test script:
 ```bash
-./zig-out/bin/zig_wasm_cpython
+./zig-out/bin/zig_wasm_cpython --script ./examples/demo_requests.py
 ```
 
 Run your own Python script:
 ```bash
-./zig-out/bin/zig_wasm_cpython --script path/to/your/script.py
-```
-
-For optimized builds:
-```bash
-zig build -Doptimize=ReleaseFast
-./zig-out/bin/zig_wasm_cpython --script your_script.py
+./ig-out/bin/zig_wasm_cpython --script path/to/your/script.py
 ```
 
 ### Command-line Options
@@ -61,10 +57,10 @@ zig build -Doptimize=ReleaseFast
    - Bridges between zware runtime and VFS
    - Full `fd_*` and `path_*` function support
 
-3. **Socket Support** - Network I/O for Python
+3. **Basic Socket Support** - Network I/O for Python
    - Located in `src/sockets/`
    - Custom WASI socket implementation
-   - Python extension module `_wasisocket`
+   - Python c extension module `_wasisocket`
 
 4. **Python Environment** - Configuration and initialization
    - Located in `src/python/`
@@ -84,11 +80,11 @@ zig build -Doptimize=ReleaseFast
 
 ### Standard Library
 
-The runtime includes Python 3.13's standard library, loaded into VFS from the host CPython installation.
+The runtime includes Python 3.13's standard library, loaded into in-memory VFS.
 
 ### Bytecode Libraries
 
-Pre-compiled Python bytecode libraries can be included for faster loading and reduced memory footprint. The included example demonstrates impacket support.
+Pre-compiled Python bytecode libraries can be included for faster loading and reduced memory footprint. The included example demonstrates requests support.
 
 To compile your own bytecode libraries:
 ```bash
@@ -112,7 +108,7 @@ s.close()
 
 ### HTTP Requests Library
 
-The popular `requests` library is fully supported for HTTP operations:
+The popular `requests` library is partially supported for HTTP operations:
 
 ```python
 import requests
@@ -128,15 +124,7 @@ response = requests.post('http://httpbin.org/post', json=payload, headers=header
 print(response.json())
 ```
 
-**Note**: HTTPS is not yet supported as it requires TLS implementation in WASI. Compression (gzip/deflate) is disabled as zlib is not available in WASM.
-
-## Use Cases
-
-- **Embedded Python Execution**: Run Python in WASM environments
-- **Sandboxed Python**: Execute untrusted Python code safely
-- **Network Tool Development**: Build Python-based network utilities
-- **Testing**: Test Python code in isolated environments
-- **Cross-platform**: Run Python anywhere zig is supported
+**Note**: HTTPS is not yet supported as it requires TLS implementation at the host layer. Compression (gzip/deflate) is disabled as zlib is not available in WASM.
 
 ## Documentation
 
@@ -168,7 +156,7 @@ print(response.json())
 
 ## Dependencies
 
-- [zware](https://github.com/sissbruecker/zware) - WebAssembly runtime for Zig
+- [zware](https://github.com/malcolmstill/zware) - WebAssembly runtime for Zig
 - CPython 3.13 compiled to WASI (included)
 
 ## Building CPython WASM
@@ -179,21 +167,16 @@ If you need to rebuild the CPython WASM binary (e.g., to add more C extensions),
 
 - **No HTTPS/TLS**: HTTPS is not supported as WASI lacks TLS support
 - **No compression**: zlib is not available, so gzip/deflate compression is disabled  
-- **No ctypes/FFI**: libffi cannot be compiled to WASM/WASI, so ctypes is not available
-- **Limited threading**: WASI has limited threading support
+- **No ctypes/FFI**: libffi cannot be compiled to WASM/WASI, so ctypes is not available (no impacket :( )
+- **No threading**: WASI has no threading support (at least as implemented here)
 - **No dynamic loading**: C extensions must be compiled into the WASM binary
 
 ## Contributing
 
-Contributions are welcome! Areas for improvement:
-
-- Additional WASI syscall implementations
-- Performance optimizations
-- More Python C extensions
-- Better error handling
-- Documentation improvements
+If this interests you, go contribute WASI support upstream [zware](https://github.com/malcolmstill/zware)
 
 ## License
+This projects code is WTFPL, see respective dependent libraries for real license info if you really care.
 
 This project builds upon:
 - CPython (Python Software Foundation License)
@@ -202,30 +185,3 @@ This project builds upon:
 
 See individual components for their respective licenses.
 
-## Acknowledgments
-
-- [zware](https://github.com/sissbruecker/zware) by @sissbruecker for the excellent WASM runtime
-- CPython team for WASI support
-- WebAssembly/WASI community
-
-## Status
-
-**Production Ready** - Core features are stable and tested:
-- ✅ VFS and file operations
-- ✅ Python standard library
-- ✅ Socket I/O
-- ✅ Bytecode library loading
-- ✅ Command-line interface
-
-**Known Working**:
-- JSON parsing and manipulation
-- Network requests (HTTP, raw TCP)
-- File I/O (via VFS)
-- Complex libraries like impacket
-
-## Example Scripts
-
-See `src/examples/python/` for example scripts including:
-- `test_modules.py` - Standard library imports
-- `test_wasisocket.py` - Socket programming
-- `test_impacket.py` - Network protocol library usage
