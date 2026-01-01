@@ -33,7 +33,8 @@
     // internet connectivity.
     .dependencies = .{
         .zware = .{
-            .path = "../zware-fork",
+            .url = "git+https://github.com/nbaertsch/zware#1fcc36844e07f44362e8463292d3cb1997e319bf",
+            .hash = "zware-0.0.1-ZA7j6cyYBQA8VpJS08f7r4IAxh_oFHZ0GRA69vwFV0dg",
         },
     },
     .paths = .{
