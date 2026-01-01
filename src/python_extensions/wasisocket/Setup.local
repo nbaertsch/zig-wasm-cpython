@@ -1,0 +1,10 @@
+# Setup.local - CPython module configuration
+#
+# Add this file to the CPython Modules/ directory or include its contents
+# in Modules/Setup.local when building CPython WASI.
+#
+# This tells CPython to compile the _wasisocket extension module.
+
+# WASI Socket Extension Module
+# Provides low-level access to WASI socket functions
+_wasisocket _wasisocket.c

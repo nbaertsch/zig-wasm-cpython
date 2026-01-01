@@ -1,0 +1,37 @@
+# Zig build artifacts
+zig-cache/
+.zig-cache/
+zig-out/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+
+# Logs
+*.log
+
+# OS specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Local development
+.env
+.local/
+
+# Compiled bytecode (keep the checked-in compiled_libs/)
+# but ignore any new compilation outputs
+*.pyc
